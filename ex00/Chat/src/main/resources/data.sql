@@ -8,3 +8,4 @@ VALUES
     ('Alex', 'Mumbai'),
     ('Garfild', 'lasagna'),
     ('Beethoven', 'GuFGuF');
+
