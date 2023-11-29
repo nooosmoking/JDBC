@@ -17,4 +17,44 @@ public class Message {
         this.text = text;
         this.dateTime = dateTime;
     }
+
+    int getId() {
+        return id;
+    }
+
+    User getAuthor() {
+        return author;
+    }
+
+    Chatroom getRoom() {
+        return room;
+    }
+
+    String getText() {
+        return text;
+    }
+
+    LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    void setId(int id) {
+        this.id = id;
+    }
+
+    void setAuthor(User author) {
+        this.author = author;
+    }
+
+    void setRoom(Chatroom room) {
+        this.room = room;
+    }
+
+    void setText(String text) {
+        this.text = text;
+    }
+
+    void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }

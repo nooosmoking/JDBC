@@ -17,4 +17,44 @@ public class User {
         this.createdRooms = createdRooms;
         this.communicateRooms = communicateRooms;
     }
+
+    int getId() {
+        return id;
+    }
+
+    String getLogin() {
+        return login;
+    }
+
+    String getPassword() {
+        return password;
+    }
+
+    List<Chatroom> getCreatedRooms() {
+        return createdRooms;
+    }
+
+    List<Chatroom> getCommunicateRooms() {
+        return communicateRooms;
+    }
+
+    void setId(int id) {
+        this.id = id;
+    }
+
+    void setLogin(String login) {
+        this.login = login;
+    }
+
+    void setPassword(String password) {
+        this.password = password;
+    }
+
+    void setCreatedRooms(List<Chatroom> createdRooms) {
+        this.createdRooms = createdRooms;
+    }
+
+    void setCommunicateRooms(List<Chatroom> communicateRooms) {
+        this.communicateRooms = communicateRooms;
+    }
 }
