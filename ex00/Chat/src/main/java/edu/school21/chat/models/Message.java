@@ -2,6 +2,7 @@ package edu.school21.chat.models;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class Message {
     private int id;
@@ -18,43 +19,63 @@ public class Message {
         this.dateTime = dateTime;
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    User getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    Chatroom getRoom() {
+    public Chatroom getRoom() {
         return room;
     }
 
-    String getText() {
+    public String getText() {
         return text;
     }
 
-    LocalDateTime getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    void setAuthor(User author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
-    void setRoom(Chatroom room) {
+    public void setRoom(Chatroom room) {
         this.room = room;
     }
 
-    void setText(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
-    void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        else if (o == null || getClass() != o.getClass()) return false;
+        Message msg = (Message) o;
+        return id == msg.id &&
+                Objects.equals(author, msg.author) &&
+                Objects.equals(room, msg.room) &&  Objects.equals(text, msg.text) && Objects.equals(dateTime, msg.dateTime);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id, author, room, text, dateTime);
+    }
+
+    @Override
+    public String toString(){
+        return "Message " + id +": text '" + text +"', author " + author + ", room " +room + ", date and time " + dateTime;
     }
 }

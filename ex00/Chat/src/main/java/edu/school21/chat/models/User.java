@@ -1,13 +1,14 @@
 package edu.school21.chat.models;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private int id;
     private String login;
     private String password;
-    List<Chatroom> createdRooms;
-    List<Chatroom> communicateRooms;
+    private List<Chatroom> createdRooms;
+    private List<Chatroom> communicateRooms;
 
     public User(int id, String login, String password,
                     List<Chatroom> createdRooms, List<Chatroom> communicateRooms){
@@ -18,43 +19,63 @@ public class User {
         this.communicateRooms = communicateRooms;
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    String getLogin() {
+    public String getLogin() {
         return login;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    List<Chatroom> getCreatedRooms() {
+    public List<Chatroom> getCreatedRooms() {
         return createdRooms;
     }
 
-    List<Chatroom> getCommunicateRooms() {
+    public List<Chatroom> getCommunicateRooms() {
         return communicateRooms;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    void setLogin(String login) {
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    void setCreatedRooms(List<Chatroom> createdRooms) {
+    public void setCreatedRooms(List<Chatroom> createdRooms) {
         this.createdRooms = createdRooms;
     }
 
-    void setCommunicateRooms(List<Chatroom> communicateRooms) {
+    public void setCommunicateRooms(List<Chatroom> communicateRooms) {
         this.communicateRooms = communicateRooms;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        else if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&  Objects.equals(createdRooms, user.createdRooms) && Objects.equals(communicateRooms, user.communicateRooms);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id, login, password, createdRooms, communicateRooms);
+    }
+
+    @Override
+    public String toString(){
+        return "Message " + id +": login " + login +", password " + password + ", rooms crested by user " +createdRooms + ", rooms where user socialized " + communicateRooms;
     }
 }

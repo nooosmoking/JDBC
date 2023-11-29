@@ -1,6 +1,7 @@
 package edu.school21.chat.models;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Chatroom {
     private int id;
@@ -16,35 +17,55 @@ public class Chatroom {
         this.messages = messages;
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    User getOwner(){
+    public User getOwner(){
         return owner;
     }
 
-    List<Message> getMessages(){
+    public List<Message> getMessages(){
         return messages;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setOwner(User owner){
+    public void setOwner(User owner){
         this.owner = owner;
     }
 
-    void setMessages(List<Message> messages){
+    public void setMessages(List<Message> messages){
         this.messages = messages;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        else if (o == null || getClass() != o.getClass()) return false;
+        Chatroom room = (Chatroom) o;
+        return id == room.id &&
+                Objects.equals(name, room.name) &&
+                Objects.equals(owner, room.owner) &&  Objects.equals(messages, room.messages);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id, name, owner, messages);
+    }
+
+    @Override
+    public String toString(){
+        return "Chatroom " + id +": name '" + name +"', owner " + owner + ", messages " +messages;
     }
 }
