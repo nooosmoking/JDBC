@@ -18,5 +18,6 @@ public class Program {
         }
         JDBCDataSource dataSource = new JDBCDataSource();
         dataSource.update("schema.sql");
+        dataSource.update("data.sql");
     }
 }

@@ -9,9 +9,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class JDBCDataSource {
-    private final String user = "postgres";
-    private final String password = "postgres";
-    private final String url = "postgres";
+    private final String user = "nooo_sm";
+    private final String password = "x";
+    private final String url = "jdbc:postgresql://localhost:5432/nooo_sm";
     HikariDataSource dataSource;
     private Connection connection;
 
@@ -41,10 +41,11 @@ public class JDBCDataSource {
                 Scanner scanner = new Scanner(in);
                 scanner.useDelimiter(";");
                 while (scanner.hasNext())
-                    st.execute(scanner.next().trim());
+                    st.executeUpdate(scanner.next().trim());
             }
         } catch (Exception ex) {
-            System.err.println("Error to update schema");
+            System.out.println(ex.getMessage());
+            System.err.println("Error to update " + filename);
             System.exit(-1);
         }
     }
