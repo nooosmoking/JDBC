@@ -76,6 +76,6 @@ public class User {
 
     @Override
     public String toString(){
-        return "Message " + id +": login " + login +", password " + password + ", rooms crested by user " +createdRooms + ", rooms where user socialized " + communicateRooms;
+        return "id=" + id +",login=\"" + login +"\",password=\"" + password + "\",created rooms=" +createdRooms + ",rooms=" + communicateRooms;
     }
 }

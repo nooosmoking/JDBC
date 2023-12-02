@@ -66,6 +66,6 @@ public class Chatroom {
 
     @Override
     public String toString(){
-        return "Chatroom " + id +": name '" + name +"', owner " + owner + ", messages " +messages;
+        return "id=" + id +",name=\"" + name +"\",creator=" + owner + ",messages=" +messages;
     }
 }
