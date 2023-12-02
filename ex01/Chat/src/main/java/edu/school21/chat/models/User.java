@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private int id;
+    private Long id;
     private String login;
     private String password;
     private List<Chatroom> createdRooms;
     private List<Chatroom> communicateRooms;
 
-    public User(int id, String login, String password,
+    public User(Long id, String login, String password,
                     List<Chatroom> createdRooms, List<Chatroom> communicateRooms){
         this.id = id;
         this.login = login;
@@ -19,7 +19,7 @@ public class User {
         this.communicateRooms = communicateRooms;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class User {
         return communicateRooms;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,7 +64,7 @@ public class User {
         if(this == o) return true;
         else if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return Objects.equals(id, user.id) &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&  Objects.equals(createdRooms, user.createdRooms) && Objects.equals(communicateRooms, user.communicateRooms);
     }

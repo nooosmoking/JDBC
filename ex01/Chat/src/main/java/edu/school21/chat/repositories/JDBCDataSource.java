@@ -9,15 +9,15 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class JDBCDataSource {
-    private final String user = "nooo_sm";
-    private final String password = "x";
-    private final String url = "jdbc:postgresql://localhost:5432/nooo_sm";
+    private final String user = "postgres";
+    private final String password = "X";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres";
     HikariDataSource dataSource;
     private Connection connection;
 
     public JDBCDataSource(){
-        HikariConfig config = new HikariConfig();
         try{
+            HikariConfig config = new HikariConfig();
             config.setJdbcUrl(url);
             config.setUsername(user);
             config.setPassword(password);
@@ -33,6 +33,10 @@ public class JDBCDataSource {
     public Connection getConnection(){
         return connection;
     }
+    public HikariDataSource getDataSource(){
+        return dataSource;
+    }
+
     public void update(String filename){
         try {
             Statement st = connection.createStatement();
@@ -41,7 +45,7 @@ public class JDBCDataSource {
                 Scanner scanner = new Scanner(in);
                 scanner.useDelimiter(";");
                 while (scanner.hasNext())
-                    st.executeUpdate(scanner.next().trim());
+                    st.execute(scanner.next().trim());
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

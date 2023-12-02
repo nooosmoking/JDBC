@@ -33,14 +33,11 @@
         </dependency>
 
         <dependency>
-
             <groupId>org.slf4j</groupId>
-
-            <artifactId>slf4j-log4j12</artifactId>
-
+            <artifactId>slf4j-simple</artifactId>
             <version>1.8.0-alpha2</version>
-
         </dependency>
+
     </dependencies>
 
 </project>

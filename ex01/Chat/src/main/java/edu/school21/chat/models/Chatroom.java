@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Chatroom {
-    private int id;
+    private Long id;
     private String name;
     private User owner;
     private List<Message> messages;
 
-    public Chatroom(int id, String name, User owner,
+    public Chatroom(Long id, String name, User owner,
                     List<Message> messages) {
         this.id = id;
         this.name = name;
@@ -17,7 +17,7 @@ public class Chatroom {
         this.messages = messages;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class Chatroom {
         return messages;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class Chatroom {
         if(this == o) return true;
         else if (o == null || getClass() != o.getClass()) return false;
         Chatroom room = (Chatroom) o;
-        return id == room.id &&
+        return Objects.equals(id, room.id) &&
                 Objects.equals(name, room.name) &&
                 Objects.equals(owner, room.owner) &&  Objects.equals(messages, room.messages);
     }

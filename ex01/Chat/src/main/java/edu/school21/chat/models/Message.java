@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class Message {
-    private int id;
+    private Long id;
     private User author;
     private Chatroom room;
     private String text;
     private LocalDateTime dateTime;
 
-    public Message(int id, User author, Chatroom room, String text, LocalDateTime dateTime){
+    public Message(Long id, User author, Chatroom room, String text, LocalDateTime dateTime){
         this.id = id;
         this.author = author;
         this.room = room;
@@ -19,7 +19,7 @@ public class Message {
         this.dateTime = dateTime;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class Message {
         return dateTime;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,7 +64,7 @@ public class Message {
         if(this == o) return true;
         else if (o == null || getClass() != o.getClass()) return false;
         Message msg = (Message) o;
-        return id == msg.id &&
+        return Objects.equals(id, msg.id) &&
                 Objects.equals(author, msg.author) &&
                 Objects.equals(room, msg.room) &&  Objects.equals(text, msg.text) && Objects.equals(dateTime, msg.dateTime);
     }
@@ -76,6 +76,6 @@ public class Message {
 
     @Override
     public String toString(){
-        return "Message " + id +": text '" + text +"', author " + author + ", room " +room + ", date and time " + dateTime;
+        return "Message : {\nid=" + id +",\nauthor=" + author+",\ntext '" + text  + ", room " +room + ", date and time " + dateTime;
     }
 }
