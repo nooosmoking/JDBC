@@ -11,8 +11,8 @@ public class Program {
 
     public static void main(String[] args) {
         JDBCDataSource dataSource = new JDBCDataSource();
-//        dataSource.update("schema.sql");
-//        dataSource.update("data.sql");
+        dataSource.update("schema.sql");
+        dataSource.update("data.sql");
         MessageRepository messagesRepository = new MessageRepositoryJdbcImpl(dataSource.getDataSource());
         UpdateTextFunction textFunc= new UpdateTextFunction();
         UpdateUserFunction userFunc = new UpdateUserFunction();
@@ -28,15 +28,12 @@ public class Program {
             messagesRepository.update(message);
             Optional<Message> newMassage = messagesRepository.findById(msgId);
             if(newMassage.isPresent()) {
-                System.out.println(message);
+                System.out.println(newMassage);
             } else {
                 System.out.println("Message with id doesn`t exist after changing");
             }
         } else {
             System.out.println("Message with id doesn`t exist");
         }
-
     }
-
-
 }
