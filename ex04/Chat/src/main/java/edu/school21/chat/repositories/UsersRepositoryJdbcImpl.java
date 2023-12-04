@@ -3,6 +3,7 @@ package edu.school21.chat.repositories;
 import edu.school21.chat.exception.NotSavedSubEntityException;
 import edu.school21.chat.models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -23,27 +24,36 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     @Override
     public List<User> findAll(int page, int size) {
-        String query ="SELECT u.*, ch.*, user_chatroom.* " +
-                "FROM (SELECT * FROM chat.\"user\" LIMIT ? OFFSET ? ORDER BY user.id) AS u," +
-                "LEFT JOIN chat.chatroom ch ON ch.owner = u.id" +
-                "LEFT JOIN chat.user_chatroom uc ON uc.user_id = u.id" +
-                "LEFT JOIN chat.user_chatroom cu ON cu.room_id = ch.id" +
-                "ORDER BY u.id, ch.id";
+        List<User> listUsers = new ArrayList<>();
+        String query ="SELECT u.*, cr_r.id AS create_room_id, cr_r.name AS create_room_name, soc_r.id  AS social_room_id, soc_r.name AS social_room_name\n" +
+                "                 FROM (SELECT * FROM chat.\"user\" ORDER BY \"user\".id LIMIT ? OFFSET ?) AS u\n" +
+                "                 LEFT JOIN chat.chatroom cr_r ON cr_r.owner = u.id \n" +
+                "                 LEFT JOIN chat.user_chatroom uc ON uc.user_id = u.id \n" +
+                "                 LEFT JOIN chat.chatroom soc_r ON uc.room_id = soc_r.id \n" +
+                "                 ORDER BY u.id, create_room_id, social_room_id;";
+        int offset  = page * size;
         try {
-            Statement st = con.createStatement();
-
+            PreparedStatement st = con.prepareStatement(query);
+            st.setLong(1, size);
+            st.setLong(2, offset);
             ResultSet result = st.executeQuery(query);
-            if (!result.next())
-                return null;
-            User user = findUserById(result.getLong("author"));
-            Chatroom room = findRoomById(result.getLong("room"));
-            return Optional.of(new Message(id, user, room, result.getString("text"), result.getTimestamp("date_time").toLocalDateTime()));
+            while (result.next()){
+                Long userId = result.getLong("u.id");
+                Long createRoomId = result.getLong("create_room_id");
+                Long socialRoomId = result.getLong("social_room_id");
+                if(listUsers.isEmpty() ||  !listUsers.stream().anyMatch(user -> user.getId().equals(userId))){
+                    Chatroom createRoom = new Chatroom(createRoomId, result.getString("create_room_name"), null, null);
+                    Chatroom socialRoom = new Chatroom(socialRoomId, result.getString("social_room_name"), null, null);
+                    User currUser = new User(userId, result.getString("u.login"),  result.getString("u.password"), new ArrayList<Chatroom>(), new ArrayList<Chatroom>());
+                    currUser.addCommunicateRoom(socialRoom);
+                    currUser.addCreatedRoom(createRoom);
+                }
 
+            }
         } catch (Exception ex) {
             System.out.println("Error executing the query");
         }
-
-        return null;
+        return users;
     }
 
     private User findUserById(Long id) {

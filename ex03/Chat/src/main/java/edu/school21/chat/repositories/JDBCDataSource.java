@@ -9,9 +9,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class JDBCDataSource {
-    private final String user = "nooo_sm";
-    private final String password = "x";
-    private final String url = "jdbc:postgresql://localhost:5432/java";
+    private final String user = "postgres";
+    private final String password = "X";
+    private final String url = "jdbc:postgresql://localhost:5432/";
     HikariDataSource dataSource;
     private Connection connection;
 

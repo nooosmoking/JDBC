@@ -59,6 +59,14 @@ public class User {
         this.communicateRooms = communicateRooms;
     }
 
+    public void addCreatedRoom(Chatroom createdRoom) {
+        this.createdRooms.add(createdRoom);
+    }
+
+    public void addCommunicateRoom(Chatroom communicateRoom) {
+        this.communicateRooms.add(communicateRoom);
+    }
+
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
