@@ -36,24 +36,52 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             PreparedStatement st = con.prepareStatement(query);
             st.setLong(1, size);
             st.setLong(2, offset);
-            ResultSet result = st.executeQuery(query);
+            ResultSet result = st.executeQuery();
             while (result.next()){
-                Long userId = result.getLong("u.id");
+                Long userId = result.getLong("id");
                 Long createRoomId = result.getLong("create_room_id");
                 Long socialRoomId = result.getLong("social_room_id");
-                if(listUsers.isEmpty() ||  !listUsers.stream().anyMatch(user -> user.getId().equals(userId))){
+                User currUser = findUserInList(userId, listUsers);
+                if(currUser == null){
+                    currUser = new User(userId, result.getString("login"),  result.getString("password"), new ArrayList<Chatroom>(), new ArrayList<Chatroom>());
                     Chatroom createRoom = new Chatroom(createRoomId, result.getString("create_room_name"), null, null);
                     Chatroom socialRoom = new Chatroom(socialRoomId, result.getString("social_room_name"), null, null);
-                    User currUser = new User(userId, result.getString("u.login"),  result.getString("u.password"), new ArrayList<Chatroom>(), new ArrayList<Chatroom>());
                     currUser.addCommunicateRoom(socialRoom);
+                    currUser.addCreatedRoom(createRoom);
+                    listUsers.add(currUser);
+                }
+                if (findRoomInList(createRoomId, currUser.getCreatedRooms()) == null) {
+                    Chatroom createRoom = new Chatroom(createRoomId, result.getString("create_room_name"), null, null);
                     currUser.addCreatedRoom(createRoom);
                 }
 
+                if (findRoomInList(socialRoomId, currUser.getCommunicateRooms()) == null) {
+                    Chatroom socialRoom = new Chatroom(socialRoomId, result.getString("social_room_name"), null, null);
+                    currUser.addCommunicateRoom(socialRoom);
+                }
             }
         } catch (Exception ex) {
             System.out.println("Error executing the query");
         }
-        return users;
+        return listUsers;
+    }
+
+    private User findUserInList(long id, List<User> listUsers) {
+        for (User user : listUsers) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private Chatroom findRoomInList(long id, List<Chatroom> listRooms) {
+        for (Chatroom room : listRooms) {
+            if (room.getId().equals(id)) {
+                return room;
+            }
+        }
+        return null;
     }
 
     private User findUserById(Long id) {

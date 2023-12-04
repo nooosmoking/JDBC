@@ -2,6 +2,7 @@ package edu.school21.chat.app;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import edu.school21.chat.models.*;
@@ -13,27 +14,30 @@ public class Program {
         JDBCDataSource dataSource = new JDBCDataSource();
         dataSource.update("schema.sql");
         dataSource.update("data.sql");
-        MessageRepository messagesRepository = new MessageRepositoryJdbcImpl(dataSource.getDataSource());
-        UpdateTextFunction textFunc= new UpdateTextFunction();
-        UpdateUserFunction userFunc = new UpdateUserFunction();
-        updateData(5L, textFunc, messagesRepository);
-        updateData(3L, userFunc, messagesRepository);
+        UsersRepository repository = new UsersRepositoryJdbcImpl(dataSource.getDataSource());
+        findAllUsers(repository);
+    }
+    private static void findAllUsers (UsersRepository repository) {
+        List<User> users = repository.findAll(0, 20);
+        System.out.println("LIST OF ALL USERS FROM PAGE=0 SIZE=20:");
+        users.forEach(System.out::println);
+
+        users = repository.findAll(0, 5);
+        System.out.println("\nLIST OF ALL USERS FROM PAGE=0 SIZE=5:");
+        users.forEach(System.out::println);
+
+        users = repository.findAll(1, 3);
+        System.out.println("\nLIST OF ALL USERS FROM PAGE=1 SIZE=3:");
+        users.forEach(System.out::println);
+
+        users = repository.findAll(2, 2);
+        System.out.println("\nLIST OF ALL USERS FROM PAGE=2 SIZE=2:");
+        users.forEach(System.out::println);
+
+        users = repository.findAll(10, 20);
+        System.out.println("\nLIST OF ALL USERS FROM PAGE=10 SIZE=20:");
+        users.forEach(System.out::println);
+        System.out.println("---MUST BE EMPTY---");
     }
 
-    private static void updateData(Long msgId, UpdateFunction function, MessageRepository messagesRepository){
-        Optional<Message> messageOptional = messagesRepository.findById(msgId);
-        if(messageOptional.isPresent()) {
-            Message message = messageOptional.get();
-            message = function.update(message);
-            messagesRepository.update(message);
-            Optional<Message> newMassage = messagesRepository.findById(msgId);
-            if(newMassage.isPresent()) {
-                System.out.println(newMassage);
-            } else {
-                System.out.println("Message with id doesn`t exist after changing");
-            }
-        } else {
-            System.out.println("Message with id doesn`t exist");
-        }
-    }
 }
